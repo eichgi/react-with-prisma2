@@ -8,7 +8,17 @@ export const typeDefs = gql`
       url: String
     }
     
+    type Bundle {
+      id: String
+      name: String
+      description: String
+    }
+    
     input FeedInput {
+      id: String
+    }
+    
+    input BundleInput {
       id: String
     }
     
@@ -17,14 +27,23 @@ export const typeDefs = gql`
       url: String
       name: String
     }
+    
+    input BundleCreateInput {
+      id: String
+      name: String
+      description: String
+    }
 
     type Query {
       hello: String
       feed(data: FeedInput): Feed
+      bundle(data: BundleInput): Bundle
       feeds: [Feed]
+      bundles: [Bundle]
     }
     
     type Mutation {
       createFeed(data: FeedCreateInput): Feed
+      createBundle(data: BundleCreateInput): Bundle
     }
 `;
