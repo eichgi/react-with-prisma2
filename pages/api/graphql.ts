@@ -2,10 +2,18 @@ import {ApolloServer} from "apollo-server-micro";
 import {makeExecutableSchema} from "graphql-tools";
 import Cors from 'micro-cors';
 
-import {typeDefs} from "../../utils/typeDefs";
-import {resolvers} from "../../utils/resolvers";
+import {typeDefs} from "../../utils/api/typeDefs";
+import {resolvers} from "../../utils/api/resolvers";
+import {applyMiddleware} from "graphql-middleware";
+import {log} from "../../utils/api/log";
+import {permissions} from "../../utils/api/permissions";
+import {context} from "../../utils/api/context";
 
-const schema = makeExecutableSchema({typeDefs, resolvers})
+const schema = applyMiddleware(
+  makeExecutableSchema({typeDefs, resolvers}),
+  log,
+  permissions,
+);
 const cors = Cors();
 
 export const config = {
