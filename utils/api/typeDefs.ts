@@ -1,17 +1,28 @@
 import {gql} from "apollo-server-core";
 
 export const typeDefs = gql`
+
+    type User {
+      id: String
+      auth0: String
+      nickname: String
+      picture: String
+      bundles: [Bundle]
+      feeds: [Feed]
+    }
     
     type Feed {
       id: String
       name: String
       url: String
+      author: User
     }
     
     type Bundle {
       id: String
       name: String
       description: String
+      author: User
     }
     
     input FeedInput {

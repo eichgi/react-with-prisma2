@@ -1,4 +1,26 @@
+const createFieldResolver = (modelName, parName) => ({
+  [parName]: async ({id}, args, {prisma}) => {
+    const modelResponse = await prisma[modelName].findUnique({
+      where: {id},
+      include: {[parName]: true},
+    });
+
+    console.log(modelResponse);
+    return modelResponse[parName];
+  }
+});
+
 export const resolvers = {
+  Feed: {
+    // author: (parent, args, {prisma}) => {
+    //   const {authorId} = parent;
+    //   return prisma.user.findUnique({where: {id: authorId}});
+    // },
+    ...createFieldResolver('feed', 'author'),
+  },
+  Bundle: {
+    ...createFieldResolver('bundle', 'author'),
+  },
   Query: {
     hello: (parent, args, context) => {
       //throw Error('holly shxt!');
@@ -17,15 +39,17 @@ export const resolvers = {
   },
   Mutation: {
     createFeed: async (parent, {data}, {prisma, user}) => {
+      const author = {author: {connect: {id: user.id}}};
       const result = await prisma.feed.create({
-        data: {...data},
+        data: {...data, ...author},
       });
-
+      //console.log(result);
       return result;
     },
     createBundle: async (parent, {data}, {prisma, user}) => {
+      const author = {author: {connect: {id: user.id}}};
       const result = await prisma.bundle.create({
-        data: {...data},
+        data: {...data, ...author},
       });
 
       return result;
