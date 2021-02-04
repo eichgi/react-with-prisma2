@@ -17,9 +17,19 @@ export const resolvers = {
     //   return prisma.user.findUnique({where: {id: authorId}});
     // },
     ...createFieldResolver('feed', 'author'),
+    ...createFieldResolver('feed', 'tags'),
+    ...createFieldResolver('feed', 'bundles'),
   },
   Bundle: {
     ...createFieldResolver('bundle', 'author'),
+    ...createFieldResolver('bundle', 'tags'),
+    ...createFieldResolver('bundle', 'feeds'),
+  },
+  BundleTag: {
+    ...createFieldResolver('bundleTag', 'bundles'),
+  },
+  FeedTag: {
+    ...createFieldResolver('feedTag', 'feeds'),
   },
   Query: {
     hello: (parent, args, context) => {
