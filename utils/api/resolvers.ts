@@ -1,3 +1,5 @@
+import {verifyOwnership} from "./verifyOwnership";
+
 const createFieldResolver = (modelName, parName) => ({
   [parName]: async ({id}, args, {prisma}) => {
     const modelResponse = await prisma[modelName].findUnique({
@@ -35,7 +37,6 @@ export const resolvers = {
   },
   Query: {
     hello: (parent, args, context) => {
-      //throw Error('holly shxt!');
       return 'hiho';
     },
     feed: (parent, {data: {id}}, {prisma}) => {
@@ -97,6 +98,33 @@ export const resolvers = {
       return prisma.feed.update({
         where: {id: feedId},
         data: {likes: {[connectState]: {id: user.id}}},
+      });
+    },
+    updateFeed: async (parent, {data: {id, ...feedUpdate}}, {prisma, user}) => {
+      const feed = await prisma.feed.findUnique({
+        where: {id},
+        include: {author: true},
+      });
+
+      await verifyOwnership(feed, user);
+
+      return await prisma.feed.update({
+        where: {id},
+        data: {...feedUpdate},
+      });
+    },
+    updateBundle: async (parent, {data: {id, ...bundleUpdate}}, {prisma, user}) => {
+
+      const bundle = await prisma.bundle.findUnique({
+        where: {id},
+        include: {author: true},
+      });
+
+      await verifyOwnership(bundle, user);
+
+      return await prisma.bundle.update({
+        where: {id},
+        data: {...bundleUpdate},
       });
     },
   }

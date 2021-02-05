@@ -12,7 +12,7 @@ import {context} from "../../utils/api/context";
 const schema = applyMiddleware(
   makeExecutableSchema({typeDefs, resolvers}),
   log,
-  permissions,
+  //permissions,
 );
 const cors = Cors();
 
