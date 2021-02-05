@@ -52,6 +52,7 @@ model SavedArticle {
     feedId String?
     author User? @relation(fields: [authorId], references: [id])
     authorId String?
+    url String
 }
 
 model BundleTag {
@@ -65,8 +66,5 @@ model FeedTag {
     name String @unique
     feeds Feed[]
 }
-
-
-
 
 
