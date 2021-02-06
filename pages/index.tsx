@@ -1,8 +1,10 @@
+import Layout from "../components/layout";
+
 const Index = () => {
   return (
-    <div>
-      <h1>Indexito paps</h1>
-    </div>
+    <Layout>
+      <h3 className="justify-start flex text-lg font-medium py-4">Home page</h3>
+    </Layout>
   );
 };
 
