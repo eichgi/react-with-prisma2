@@ -12,7 +12,7 @@ const {
 
 module.exports = {
   publicRuntimeConfig: {
-    BACKEND_URL: `${BACKEND_ADDRESS}/api/grapqhl`,
+    BACKEND_URL: `${BACKEND_ADDRESS}/api/graphql`,
   },
   serverRuntimeConfig: {
     auth: {
