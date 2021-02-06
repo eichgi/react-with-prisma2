@@ -20,6 +20,7 @@
     "@prisma/cli": "^2.16.0",
     "@prisma/client": "^2.16.0",
     "apollo-server-micro": "^2.19.2",
+    "autoprefixer": "^10.2.4",
     "dotenv": "^8.2.0",
     "graphql": "^15.5.0",
     "graphql-middleware": "^6.0.2",
@@ -28,8 +29,10 @@
     "lodash": "^4.17.20",
     "micro-cors": "^0.1.1",
     "next": "^10.0.6",
+    "postcss": "^8.1.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "tailwindcss": "^2.0.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
