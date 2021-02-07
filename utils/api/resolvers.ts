@@ -8,7 +8,7 @@ const createFieldResolver = (modelName, parName) => ({
       include: {[parName]: true},
     });
 
-    console.log(modelResponse);
+    //console.log(modelResponse);
     return modelResponse[parName];
   }
 });
