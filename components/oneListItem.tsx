@@ -1,7 +1,8 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {BundleObject, FeedObject, ItemType, SelectedFeedState} from "../utils/types";
+import {ActionType, BadgeFieldName, BundleObject, FeedObject, ItemType, SelectedFeedState} from "../utils/types";
 import {DoubleArrowDown, DoubleArrowRight} from "./svg";
 import Link from "next/link";
+import BadgeList from "./badgeList";
 
 const OneListItem = ({
                        item,
@@ -39,9 +40,9 @@ const OneListItem = ({
         <div>
           <div
             className={`cursor-pointer grid grid-cols-6 p-4 rounded-lg 
-        ${useSelected ? 'rounded-b-none' : 'border-b-4'} 
-        border-t-4 border-l-4 border-r-4
-        ${isSelected ? `border-${isFeed ? 'green' : 'purple'}-400` : 'border-gray-300'}`}>
+            ${useSelected ? 'rounded-b-none' : 'border-b-4'} 
+            border-t-4 border-l-4 border-r-4
+            ${isSelected ? `border-${isFeed ? 'green' : 'purple'}-400` : 'border-gray-300'}`}>
             <div className="col-span-4">
               <h4 className="font-bold">{item.name}</h4>
               {!isFeed ? <p>{item.description}</p> : null}
@@ -57,14 +58,15 @@ const OneListItem = ({
             <div className="col-span-6 py-2">
               <h3>Tags</h3>
               <div className="grid grid-cols-3 gap-2">
-                <p>tags...</p>
+                <BadgeList fieldName={BadgeFieldName.tags} action={ActionType.NONE} item={item}/>
               </div>
             </div>
 
             <div className="col-span-6 py-2">
               <h3>{isFeed ? 'Bundles' : 'Feeds'}</h3>
               <div className="grid grid-cols-3 gap-2">
-                <p>child items...</p>
+                <BadgeList fieldName={isFeed ? BadgeFieldName.bundles : BadgeFieldName.feeds} action={ActionType.NONE}
+                           item={item}/>
               </div>
             </div>
           </div>
