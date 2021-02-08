@@ -45,4 +45,10 @@ export enum ActionType {
   NONE = 'NONE',
 }
 
-export type NewItemState  = FeedObject | BundleObject;
+export type NewItemState = FeedObject | BundleObject;
+
+export enum SearchQueryName {
+  findFeedTags = 'findFeedTags',
+  findBundleTags = 'findBundleTags',
+  findFeeds = 'findFeeds',
+}

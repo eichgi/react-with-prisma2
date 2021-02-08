@@ -1,10 +1,20 @@
 import React, {useState} from 'react';
-import {ActionType, BadgeFieldName, BundleObject, FeedObject, ItemType, NewItemState} from "../utils/types";
+import {
+  ActionType,
+  BadgeFieldName,
+  BundleObject,
+  FeedObject,
+  ItemType,
+  NewItemState,
+  SearchQueryName
+} from "../utils/types";
 import {useMutation} from "@apollo/client";
 import {CREATE_BUNDLE_MUTATION, CREATE_FEED_MUTATION} from "../utils/api/graphql/mutations";
 import {ErrorSign, WaitingClock} from "./svg";
 import BadgeList from "./badgeList";
 import GenerateInputField from "./generateInputField";
+import SearchItems from "./searchItems";
+import {FIND_BUNDLE_TAGS_QUERY, FIND_FEED_TAGS_QUERY, FIND_FEEDS_QUERY} from "../utils/api/graphql/queries";
 
 const NewEditItem = ({type}: { type: ItemType }) => {
   const isFeed = type === ItemType.FeedType;
@@ -67,7 +77,12 @@ const NewEditItem = ({type}: { type: ItemType }) => {
             </div>
 
             <div className="py-2">
-              <label className="block py-2">Add new tags: </label>
+              <label className="block py-2">Add new Tag: </label>
+              <SearchItems currentItem={currentItem}
+                           setItem={setCurrentItem}
+                           queryName={isFeed ? SearchQueryName.findFeedTags : SearchQueryName.findBundleTags}
+                           query={isFeed ? FIND_FEED_TAGS_QUERY : FIND_BUNDLE_TAGS_QUERY}
+                           fieldName={BadgeFieldName.tags}/>
             </div>
 
             {isFeed ? null : (
@@ -82,6 +97,11 @@ const NewEditItem = ({type}: { type: ItemType }) => {
 
                 <div className="py-2">
                   <label className="block py-2">Add new Feed: </label>
+                  <SearchItems currentItem={currentItem}
+                               setItem={setCurrentItem}
+                               queryName={SearchQueryName.findFeeds}
+                               query={FIND_FEEDS_QUERY}
+                               fieldName={BadgeFieldName.feeds}/>
                 </div>
               </>
             )}
