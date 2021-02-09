@@ -53,7 +53,7 @@ const ItemList = ({
   return (
     <>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-        {itemList.length > 0
+        {itemList && itemList.length > 0
           ? (
             itemList.map((item: FeedObject | BundleObject) => (
                 <OneListItem item={item}
