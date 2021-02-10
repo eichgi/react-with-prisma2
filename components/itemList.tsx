@@ -6,19 +6,20 @@ import {NotifyLoading} from "./notifyLoading";
 import {NotifyError} from "./notifyError";
 import OneListItem from "./oneListItem";
 
-const ItemList = ({
-                    type,
-                    selected,
-                    setSelected,
-                    useSelected = false,
-                    allowEdits = false,
-                  }: {
-  type: ItemType,
-  selected?: SelectedFeedState,
-  setSelected?: Dispatch<SetStateAction<SelectedFeedState>>,
-  useSelected?: boolean,
-  allowEdits?: boolean,
-}) => {
+const ItemList = (
+  {
+    type,
+    selected,
+    setSelected,
+    useSelected = false,
+    allowEdits = false,
+  }: {
+    type: ItemType,
+    selected?: SelectedFeedState,
+    setSelected?: Dispatch<SetStateAction<SelectedFeedState>>,
+    useSelected?: boolean,
+    allowEdits?: boolean,
+  }) => {
   const isFeed = type === ItemType.FeedType;
 
   const {loading, error, data} = useQuery(isFeed ? FEEDS_QUERY : BUNDLES_QUERY,);
@@ -46,7 +47,7 @@ const ItemList = ({
     return <NotifyLoading/>
   }
 
-  if (error) {
+  if (error || !itemList) {
     return <NotifyError/>
   }
 

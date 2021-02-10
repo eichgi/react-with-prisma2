@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {
   ActionType,
   BadgeFieldName,
@@ -10,12 +10,24 @@ import {
   SelectedFeedState
 } from "../utils/types";
 import {useMutation, useQuery} from "@apollo/client";
-import {CREATE_BUNDLE_MUTATION, CREATE_FEED_MUTATION} from "../utils/api/graphql/mutations";
+import {
+  CREATE_BUNDLE_MUTATION,
+  CREATE_FEED_MUTATION,
+  UPDATE_BUNDLE_MUTATION,
+  UPDATE_FEED_MUTATION
+} from "../utils/api/graphql/mutations";
 import {ErrorSign, WaitingClock} from "./svg";
 import BadgeList from "./badgeList";
 import GenerateInputField from "./generateInputField";
 import SearchItems from "./searchItems";
-import {FIND_BUNDLE_TAGS_QUERY, FIND_FEED_TAGS_QUERY, FIND_FEEDS_QUERY, ME_QUERY} from "../utils/api/graphql/queries";
+import {
+  BUNDLE_QUERY,
+  FEED_QUERY,
+  FIND_BUNDLE_TAGS_QUERY,
+  FIND_FEED_TAGS_QUERY,
+  FIND_FEEDS_QUERY,
+  ME_QUERY
+} from "../utils/api/graphql/queries";
 import {prepareNewUpdateObject} from "../utils/prepareNewUpdateObject";
 import {updateCache} from "../utils/update";
 import {optimisticCache} from "../utils/optimisticCache";
@@ -52,28 +64,60 @@ const NewEditItem = (
     error: createError
   }] = useMutation(isFeed ? CREATE_FEED_MUTATION : CREATE_BUNDLE_MUTATION);
 
-  const {loading: onLoading, error: onError, data: meData} = useQuery(ME_QUERY);
+  const [updateItemMutation, {
+    loading: updateLoading, error: updateError
+  }] = useMutation(isFeed ? UPDATE_FEED_MUTATION : UPDATE_BUNDLE_MUTATION);
 
-  if (createLoading) {
+  const variables = {data: {id: selected.id || ''}};
+  const {
+    loading: itemQueryLoading,
+    error: itemQueryError,
+    data: itemQueryData
+  } = useQuery(isFeed ? FEED_QUERY : BUNDLE_QUERY, {variables});
+
+  const {loading: meLoading, error: meError, data: meData} = useQuery(ME_QUERY);
+  const {bundle, feed} = itemQueryData || {};
+  const item = isFeed ? feed : bundle;
+
+  useEffect(() => {
+    (async () => {
+      if (item && selected.editMode) {
+        const {__typename, likes, author, ...cleanedItem} = item;
+        setCurrentItem({...cleanedItem});
+      } else {
+        setCurrentItem(initialState);
+      }
+    })();
+  }, [itemQueryData]);
+
+  if (createLoading || updateLoading || itemQueryLoading || meLoading) {
     return <WaitingClock className="my-20 h-10 w-10 text-gray-500 m-auto"/>
   }
 
-  if (createError) {
+  if (createError || updateError || itemQueryError || meError) {
     return <ErrorSign className="my-20 h-10 w-10 text-gray-500 m-auto"/>
   }
 
-  const onSubmitHandler = (e) => {
+  //console.log(itemQueryData);
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    const data = prepareNewUpdateObject(currentItem);
+    const data = prepareNewUpdateObject(item, currentItem, isFeed, selected.editMode);
     //console.log(data);
 
-    createItemMutation({
-      variables: {data},
-      update: updateCache(isFeed, 'create'),
-      optimisticResponse: optimisticCache(isFeed, 'create', data, currentItem, meData),
-    });
+    selected.editMode
+      ? await updateItemMutation({
+        variables: {data},
+        update: updateCache(isFeed, 'update'),
+        optimisticResponse: optimisticCache(isFeed, 'update', data, currentItem, meData),
+      })
+      : await createItemMutation({
+        variables: {data},
+        update: updateCache(isFeed, 'create'),
+        optimisticResponse: optimisticCache(isFeed, 'create', data, currentItem, meData),
+      });
 
-    setCurrentItem(initialState);
+    await setCurrentItem(initialState);
     setSelected((currentState) => ({
       ...currentState,
       editMode: false,

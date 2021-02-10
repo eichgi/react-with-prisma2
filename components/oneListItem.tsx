@@ -1,9 +1,12 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import {ActionType, BadgeFieldName, BundleObject, FeedObject, ItemType, SelectedFeedState} from "../utils/types";
-import {DoubleArrowDown, DoubleArrowRight} from "./svg";
+import {DoubleArrowDown, DoubleArrowRight, WaitingClock} from "./svg";
 import Link from "next/link";
 import BadgeList from "./badgeList";
 import ProfilePic from "./profilePic";
+import {ItemEdit} from "./itemEdit";
+import {useFetchUser} from "../utils/user";
+import * as _ from 'lodash';
 
 const OneListItem = ({
                        item,
@@ -24,6 +27,14 @@ const OneListItem = ({
 
     const isFeed = type === ItemType.FeedType;
     const isSelected = useSelected && selected && selected.id === item.id;
+
+    const {user, loading} = useFetchUser();
+
+    if (loading) {
+      return <WaitingClock className="h-10 w-10 text-gray-500 m-auto"/>
+    }
+
+    const canManipulate = !loading && user && _.get(item, 'author.auth0') === user.sub && allowEdits && useSelected;
 
     const chooseItem = (e) => {
       e.preventDefault();
@@ -49,7 +60,9 @@ const OneListItem = ({
               {!isFeed ? <p>{item.description}</p> : null}
             </div>
             <div className="col-span-2 flex justify-end">
-              <p>actions</p>
+              {canManipulate
+                ? <ItemEdit item={item} type={type} selected={selected} setSelected={setSelected}/>
+                : null}
             </div>
 
             <div className="flex col-span-6 py-0 space-x-2">
