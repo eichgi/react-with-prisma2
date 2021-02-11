@@ -100,7 +100,7 @@ export const Minus = ({className}) => (
   </svg>
 );
 
-export const Spin = ({ className }) => (
+export const Spin = ({className}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -117,7 +117,7 @@ export const Spin = ({ className }) => (
   </svg>
 );
 
-export const Search = ({ className }) => (
+export const Search = ({className}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -134,7 +134,7 @@ export const Search = ({ className }) => (
   </svg>
 );
 
-export const Question = ({ className }) => (
+export const Question = ({className}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -151,7 +151,7 @@ export const Question = ({ className }) => (
   </svg>
 );
 
-export const EditPencil = ({ className }) => (
+export const EditPencil = ({className}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -168,7 +168,7 @@ export const EditPencil = ({ className }) => (
   </svg>
 );
 
-export const Delete = ({ className }) => (
+export const Delete = ({className}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -181,6 +181,40 @@ export const Delete = ({ className }) => (
       strokeLinejoin="round"
       strokeWidth={2}
       d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+    />
+  </svg>
+);
+
+export const HeartOutline = ({className}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+    />
+  </svg>
+);
+
+export const SingleArrowRight = ({className}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className={className}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M9 5l7 7-7 7"
     />
   </svg>
 );

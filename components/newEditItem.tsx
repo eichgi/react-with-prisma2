@@ -108,7 +108,7 @@ const NewEditItem = (
     selected.editMode
       ? await updateItemMutation({
         variables: {data},
-        update: updateCache(isFeed, 'update'),
+        //update: updateCache(isFeed, 'update'),
         optimisticResponse: optimisticCache(isFeed, 'update', data, currentItem, meData),
       })
       : await createItemMutation({

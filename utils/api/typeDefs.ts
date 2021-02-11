@@ -109,12 +109,12 @@ export const typeDefs = gql`
       url: String
     }
     
-    input likeBundleInput {
+    input LikeBundleInput {
       bundleId: String
       likeState: Boolean
     }
     
-    input likeFeedInput {
+    input LikeFeedInput {
       feedId: String
       likeState: Boolean
     }
@@ -210,8 +210,8 @@ export const typeDefs = gql`
     type Mutation {
       createFeed(data: FeedCreateInput): Feed
       createBundle(data: BundleCreateInput): Bundle
-      likeBundle(data: likeBundleInput): Bundle
-      likeFeed(data: likeFeedInput): Feed
+      likeBundle(data: LikeBundleInput): Bundle
+      likeFeed(data: LikeFeedInput): Feed
       updateBundle(data: BundleUpdateInput): Bundle
       updateFeed(data: FeedUpdateInput): Feed
       createSavedArticle(data: SavedArticleCreateInput): SavedArticle

@@ -8,6 +8,7 @@ import {ItemEdit} from "./itemEdit";
 import {useFetchUser} from "../utils/user";
 import * as _ from 'lodash';
 import ItemDelete from "./itemDelete";
+import ItemLike from "./itemLike";
 
 const OneListItem = ({
                        item,
@@ -61,6 +62,7 @@ const OneListItem = ({
               {!isFeed ? <p>{item.description}</p> : null}
             </div>
             <div className="col-span-2 flex justify-end">
+              <ItemLike item={item} type={type}/>
               {canManipulate
                 ? <ItemEdit item={item} type={type} selected={selected} setSelected={setSelected}/>
                 : null}
