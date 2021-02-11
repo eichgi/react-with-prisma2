@@ -6,6 +6,7 @@ import Layout from "../../components/layout";
 import {NotifyError} from "../../components/notifyError";
 import {FeedObject, ItemType} from "../../utils/types";
 import OneListItem from "../../components/oneListItem";
+import GenerateArticleList from "../../components/generateArticleList";
 
 const Bundle = ({id}) => {
 
@@ -42,6 +43,7 @@ const Bundle = ({id}) => {
             <OneListItem key={item.id} item={item} type={ItemType.FeedType}/>
           ))
           : <p>There are no feeds.</p>}
+        <GenerateArticleList feeds={bundle.feeds}/>
       </div>
     </Layout>
   );

@@ -6,6 +6,7 @@ import {NotifyLoading} from "../../components/notifyLoading";
 import {NotifyError} from "../../components/notifyError";
 import {BundleObject, ItemType} from "../../utils/types";
 import OneListItem from "../../components/oneListItem";
+import GenerateArticleList from "../../components/generateArticleList";
 
 const Feed = ({id}) => {
 
@@ -40,6 +41,7 @@ const Feed = ({id}) => {
             <OneListItem key={item.id} item={item} type={ItemType.BundleType}/>
           ))
           : <p>There are no bundles.</p>}
+        <GenerateArticleList feeds={[feed]}/>
       </div>
     </Layout>
   );

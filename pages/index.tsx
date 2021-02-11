@@ -2,6 +2,7 @@ import Layout from "../components/layout";
 import ItemList from "../components/itemList";
 import {ItemType, SelectedFeedState} from "../utils/types";
 import {useState} from "react";
+import GenerateArticleList from "../components/generateArticleList";
 
 const Index = () => {
 
@@ -23,6 +24,10 @@ const Index = () => {
         setSelected={setSelected}
         useSelected={true}
         type={ItemType.BundleType}/>
+
+      {selected.feeds.length > 0
+        ? <GenerateArticleList feeds={selected.feeds}/>
+        : <h3>No bundles</h3>}
     </Layout>
   );
 };

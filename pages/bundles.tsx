@@ -5,6 +5,7 @@ import {useFetchUser} from "../utils/user";
 import {Minus, Plus} from "../components/svg";
 import NewEditItem from "../components/newEditItem";
 import ItemList from "../components/itemList";
+import GenerateArticleList from "../components/generateArticleList";
 
 const BundlesPage = () => {
   const {user, loading} = useFetchUser();
@@ -53,6 +54,9 @@ const BundlesPage = () => {
                 selected={selected}
                 setSelected={setSelected}/>
 
+      {selected.feeds.length > 0
+        ? <GenerateArticleList feeds={selected.feeds}/>
+        : <h3>No bundles</h3>}
     </Layout>
   );
 };
