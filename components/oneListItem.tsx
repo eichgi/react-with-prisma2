@@ -7,6 +7,7 @@ import ProfilePic from "./profilePic";
 import {ItemEdit} from "./itemEdit";
 import {useFetchUser} from "../utils/user";
 import * as _ from 'lodash';
+import ItemDelete from "./itemDelete";
 
 const OneListItem = ({
                        item,
@@ -62,6 +63,9 @@ const OneListItem = ({
             <div className="col-span-2 flex justify-end">
               {canManipulate
                 ? <ItemEdit item={item} type={type} selected={selected} setSelected={setSelected}/>
+                : null}
+              {canManipulate
+                ? <ItemDelete item={item} type={type}/>
                 : null}
             </div>
 
