@@ -47,8 +47,6 @@ const GenerateArticleList = ({feeds}: { feeds: Feed[] }) => {
     return <NotifyError/>
   }
 
-  console.log(data);
-
   return (
     <ArticleList articleList={data}/>
   );

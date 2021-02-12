@@ -1,4 +1,11 @@
-import {BUNDLE_QUERY, BUNDLES_QUERY, FEED_QUERY, FEEDS_QUERY} from "./api/graphql/queries";
+import {
+  BUNDLE_QUERY,
+  BUNDLES_QUERY,
+  FEED_QUERY,
+  FEEDS_QUERY,
+  SAVED_ARTICLE_QUERY,
+  SAVED_ARTICLES_QUERY
+} from "./api/graphql/queries";
 import * as _ from 'lodash';
 
 export const updateCache = (isFeed, action) => (store, {data}) => {
@@ -33,3 +40,34 @@ export const updateCache = (isFeed, action) => (store, {data}) => {
 
   }
 }
+
+export const updateSavedArticleCache = (action) => (store, {data}) => {
+  const item = data[`${action}SavedArticle`];
+
+  try {
+    store.writeQuery({
+      query: SAVED_ARTICLE_QUERY,
+      variables: {data: {url: _.get(item, 'url')}},
+      data: {savedArticle: action === 'delete' ? null : item}
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  try {
+    const {savedArticles} = store.readQuery({
+      query: SAVED_ARTICLES_QUERY,
+    });
+
+    store.writeQuery({
+      query: SAVED_ARTICLES_QUERY,
+      data: {
+        savedArticles: action === 'delete'
+          ? savedArticles.filter(article => article.id !== item.id)
+          : [...savedArticles, item]
+      }
+    });
+  } catch (error) {
+
+  }
+};
